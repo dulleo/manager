@@ -3,6 +3,7 @@ package com.dl.manager.service;
 import java.util.List;
 
 import com.dl.manager.entity.Community;
+import com.dl.manager.exception.ResourceNotFoundException;
 
 /**
  * 
@@ -12,5 +13,11 @@ import com.dl.manager.entity.Community;
 public interface CommunityServiceInterface {
 
 	List<Community> getAllCommunities();
+
+	void createCommunity(Community community);
+
+	void updateCommunity(Long id, Community community) throws ResourceNotFoundException;
+
+	void deleteCommunity(Long id) throws ResourceNotFoundException;
 
 }
