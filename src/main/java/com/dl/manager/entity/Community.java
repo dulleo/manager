@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * 
@@ -25,13 +26,13 @@ public class Community {
 	@Column(name="name", unique=true)
 	private String name;
 	
-	@NotBlank
 	@Column(name="identification_number", unique=true)
-	private String identificationNumber;
-	
-	@NotBlank
+	@NotNull(message= "Identification number may not be empty")
+	private Integer identificationNumber;
+
 	@Column(name="pib", unique=true)
-	private String pib;
+	@NotNull(message= "Pib may not be empty")
+	private Integer pib;
 
 	public Long getId() {
 		return id;
@@ -49,19 +50,19 @@ public class Community {
 		this.name = name;
 	}
 	
-	public String getIdentificationNumber() {
+	public Integer getIdentificationNumber() {
 		return identificationNumber;
 	}
 
-	public void setIdentificationNumber(String identificationNumber) {
+	public void setIdentificationNumber(Integer identificationNumber) {
 		this.identificationNumber = identificationNumber;
 	}
 
-	public String getPib() {
+	public Integer getPib() {
 		return pib;
 	}
 
-	public void setPib(String pib) {
+	public void setPib(Integer pib) {
 		this.pib = pib;
 	}
 }
