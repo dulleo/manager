@@ -65,4 +65,10 @@ public class Community {
 	public void setPib(Integer pib) {
 		this.pib = pib;
 	}
+
+	@Override
+	public String toString() {
+		return "Community [id=" + id + ", name=" + name + ", identificationNumber=" + identificationNumber + ", pib="
+				+ pib + "]";
+	}	
 }
