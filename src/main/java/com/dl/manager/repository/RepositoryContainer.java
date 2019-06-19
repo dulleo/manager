@@ -16,14 +16,14 @@ public class RepositoryContainer {
 	private CommunityRepository communityRepo;
 	
 	@Autowired
-	private AccountRepository accountrepo;
+	private AccountRepository accountRepo;
 
 	public CommunityRepository getCommunityRepo() {
 		return communityRepo;
 	}
 
-	public AccountRepository getAccountrepo() {
-		return accountrepo;
+	public AccountRepository getAccountRepo() {
+		return accountRepo;
 	}
 	
 	
