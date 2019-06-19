@@ -14,9 +14,18 @@ public class RepositoryContainer {
 	
 	@Autowired
 	private CommunityRepository communityRepo;
+	
+	@Autowired
+	private AccountRepository accountrepo;
 
 	public CommunityRepository getCommunityRepo() {
 		return communityRepo;
 	}
+
+	public AccountRepository getAccountrepo() {
+		return accountrepo;
+	}
+	
+	
 	
 }
