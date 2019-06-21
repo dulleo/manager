@@ -2,6 +2,7 @@ package com.dl.manager.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import com.dl.manager.repository.RepositoryContainer;
  *
  */
 @Service
+@Transactional
 public class AccountService implements AccountServiceInterface {
 	
 	private final static String NOT_FOUND_MESSAGE = "Stambena zajednica sa id=%s nije pronadjena!";
@@ -39,7 +41,27 @@ public class AccountService implements AccountServiceInterface {
 		Community communityFromDb = getCommunityFromDb(id);
 		
 		account.setCommunity(communityFromDb);
+		
 		repoContainer.getAccountRepo().save(account);
+	}
+	
+	@Override
+	public void updateAccount(Long id, Long accountId, BankAccount account) {
+		
+		getAccountFromDb(id, accountId);
+		
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @param accountId
+	 */
+	private BankAccount getAccountFromDb(Long id, Long accountId) {
+		
+		//return repoContainer.getAccountRepo().findById(accountId)
+			//.orElseThrow(()-> new ResourceNotFoundException(String.format("Ne postoji račun id: %s za stambenu zajednicu id: %s", accountId, id)));
+		return null;
 	}
 	
 	/**
@@ -53,9 +75,5 @@ public class AccountService implements AccountServiceInterface {
 				.orElseThrow(()-> new ResourceNotFoundException(String.format(NOT_FOUND_MESSAGE, id)));
 		return communityFromDb;
 	}
-
-
-
-	
 
 }
