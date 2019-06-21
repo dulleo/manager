@@ -43,5 +43,11 @@ public class AccountController {
 	public void createAccount(@PathVariable Long id, @Valid @RequestBody BankAccount account) throws ResourceNotFoundException {
 		service.createAccount(id, account);
 	}
+	
+	@RequestMapping(value="communities/{id}/accounts/{accountId}", method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void updateAccount(@PathVariable Long id, @PathVariable Long accountId, @Valid @RequestBody BankAccount account) throws ResourceNotFoundException {
+		service.updateAccount(id, accountId, account);
+	}
 
 }
