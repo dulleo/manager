@@ -2,8 +2,6 @@ package com.dl.manager.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import com.dl.manager.common.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -36,10 +33,6 @@ public class BankAccount {
 	@NotBlank
 	@Column(name="bank")
 	private String bankName;
-	
-	@Column(name="status")
-	@Enumerated(EnumType.STRING)
-	private Status status;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "community_id", nullable = false)
@@ -70,14 +63,6 @@ public class BankAccount {
 		this.bankName = bankName;
 	}
 
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-
 	public Community getCommunity() {
 		return community;
 	}
@@ -88,7 +73,8 @@ public class BankAccount {
 
 	@Override
 	public String toString() {
-		return "BankAccount [id=" + id + ", accountNumber=" + accountNumber + ", bankName=" + bankName + ", status="
-				+ status + "]";
+		return "BankAccount [id=" + id + ", accountNumber=" + accountNumber + ", bankName=" + bankName + ", community="
+				+ community + "]";
 	}
+
 }
