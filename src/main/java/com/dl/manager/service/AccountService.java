@@ -30,16 +30,16 @@ public class AccountService implements AccountServiceInterface {
 	private RepositoryContainer repoContainer;
 
 	@Override
-	public List<BankAccount> getAllAccounts(Long id) throws ResourceNotFoundException {
+	public List<BankAccount> getAllAccounts(Long communityId) throws ResourceNotFoundException {
 
-		Community communityFromDb = entityProvider.getCommunityFromDb(id);
+		Community communityFromDb = entityProvider.getCommunityFromDb(communityId);
 		return repoContainer.getAccountRepo().findByCommunityId(communityFromDb.getId());
 	}
 
 	@Override
-	public void createAccount(Long id, BankAccount account) throws ResourceNotFoundException {
+	public void createAccount(Long communityId, BankAccount account) throws ResourceNotFoundException {
 
-		Community communityFromDb = entityProvider.getCommunityFromDb(id);
+		Community communityFromDb = entityProvider.getCommunityFromDb(communityId);
 		account.setCommunity(communityFromDb);
 		repoContainer.getAccountRepo().save(account);
 	}
