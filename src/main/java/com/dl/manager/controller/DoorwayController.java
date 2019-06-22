@@ -26,7 +26,7 @@ import com.dl.manager.service.DoorwayServiceInterface;
  *
  */
 @RestController
-@RequestMapping(value="/manager/")
+@RequestMapping(value="/manager")
 @CrossOrigin(origins = "http://localhost:4200")
 public class DoorwayController {
 	
@@ -34,24 +34,24 @@ public class DoorwayController {
 	private DoorwayServiceInterface service;
 	
 	@ResponseStatus(value = HttpStatus.OK)
-	@RequestMapping(value="communities/{id}/doorways", method= RequestMethod.GET)
+	@RequestMapping(value="/communities/{id}/doorways", method= RequestMethod.GET)
 	public List<Doorway> getAllDoorways(@PathVariable Long id) throws ResourceNotFoundException {
 		return service.getAllDoorways(id);
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
-	@RequestMapping(value="communities/{id}/doorways", method= RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/communities/{id}/doorways", method= RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void createDoorway(@PathVariable Long id, @Valid @RequestBody Doorway doorway) throws ResourceNotFoundException {
 		service.createDoorway(id, doorway);
 	}
 	
-	@RequestMapping(value="communities/{id}/doorways/{doorwayId}", method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/communities/{id}/doorways/{doorwayId}", method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void updateDoorway(@PathVariable Long id, @PathVariable Long doorwayId, @Valid @RequestBody Doorway doorway) throws ResourceNotFoundException, EntityValidationException {
 		service.updateDoorway(id, doorwayId, doorway);
 	}
 	
-	@RequestMapping(value="communities/{id}/doorways/{doorwayId}", method= RequestMethod.DELETE, consumes=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/communities/{id}/doorways/{doorwayId}", method= RequestMethod.DELETE, consumes=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteDoorway(@PathVariable Long id, @PathVariable Long doorwayId) throws ResourceNotFoundException {
 		service.deleteDoorway(id, doorwayId);
