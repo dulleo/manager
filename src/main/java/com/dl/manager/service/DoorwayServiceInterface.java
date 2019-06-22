@@ -14,12 +14,12 @@ import com.dl.manager.exception.ResourceNotFoundException;
  */
 public interface DoorwayServiceInterface {
 
-	List<Doorway> getAllDoorways(Long id) throws ResourceNotFoundException;
+	List<Doorway> getAllDoorways(Long communityId) throws ResourceNotFoundException;
 
-	void createDoorway(Long id, @Valid Doorway doorway);
+	void createDoorway(Long communityId, Doorway doorway);
 
-	void updateDoorway(Long id, Long accountId, @Valid Doorway doorway);
+	void updateDoorway(Long communityId, Long accountId, @Valid Doorway doorway);
 
-	void deleteDoorway(Long id, Long accountId);
+	void deleteDoorway(Long communityId, Long accountId);
 
 }
