@@ -17,6 +17,6 @@ public interface AccountRepository extends JpaRepository<BankAccount, Long>{
 
 	List<BankAccount> findByCommunityId(Long id);
 
-	BankAccount findByIdAndCommunityId(Long accountId, Long id);
+	BankAccount findByIdAndCommunityId(Long id, Long communityId);
 
 }
