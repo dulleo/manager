@@ -34,6 +34,7 @@ public class AccountService implements AccountServiceInterface {
 
 		Community communityFromDb = entityProvider.getCommunityFromDb(communityId);
 		return repoContainer.getAccountRepo().findByCommunityId(communityFromDb.getId());
+		
 	}
 
 	@Override
@@ -42,6 +43,7 @@ public class AccountService implements AccountServiceInterface {
 		Community communityFromDb = entityProvider.getCommunityFromDb(communityId);
 		account.setCommunity(communityFromDb);
 		repoContainer.getAccountRepo().save(account);
+		
 	}
 
 	@Override
@@ -59,6 +61,7 @@ public class AccountService implements AccountServiceInterface {
 		
 		BankAccount accountFromDb = entityProvider.getAccountFromDb(communityId, accountId);
 		repoContainer.getAccountRepo().delete(accountFromDb);
+		
 	}
 
 }
