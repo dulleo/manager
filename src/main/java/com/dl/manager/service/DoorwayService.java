@@ -2,14 +2,13 @@ package com.dl.manager.service;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dl.manager.entity.Community;
 import com.dl.manager.entity.Doorway;
 import com.dl.manager.entity.provider.EntityProviderInterface;
+import com.dl.manager.exception.EntityValidationException;
 import com.dl.manager.exception.ResourceNotFoundException;
 import com.dl.manager.repository.RepositoryContainer;
 
@@ -45,14 +44,19 @@ public class DoorwayService implements DoorwayServiceInterface {
 	}
 
 	@Override
-	public void updateDoorway(Long id, Long accountId, @Valid Doorway doorway) {
-		// TODO Auto-generated method stub
+	public void updateDoorway(Long communityId, Long doorwayId, Doorway doorway) throws EntityValidationException, ResourceNotFoundException {
+		
+		Doorway doorwayFromDb = entityProvider.getDoorwayFromDb(communityId, doorwayId, doorway);
+		doorwayFromDb.setNumber(doorway.getNumber());
+		repoContainer.getDoorwayRepo().save(doorwayFromDb);
 
 	}
 
 	@Override
-	public void deleteDoorway(Long id, Long accountId) {
-		// TODO Auto-generated method stub
+	public void deleteDoorway(Long communityId, Long doorwayId) throws ResourceNotFoundException {
+		
+		Doorway doorwayFromDb = entityProvider.getDoorwayFromDb(communityId, doorwayId);
+		repoContainer.getDoorwayRepo().delete(doorwayFromDb);
 
 	}
 
