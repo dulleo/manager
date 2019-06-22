@@ -26,7 +26,7 @@ import com.dl.manager.service.AccountServiceInterface;
  *
  */
 @RestController
-@RequestMapping(value="/manager/")
+@RequestMapping(value="/manager")
 @CrossOrigin(origins = "http://localhost:4200")
 public class AccountController {
 	
@@ -34,24 +34,24 @@ public class AccountController {
 	private AccountServiceInterface service;
 	
 	@ResponseStatus(value = HttpStatus.OK)
-	@RequestMapping(value="communities/{id}/accounts", method= RequestMethod.GET)
+	@RequestMapping(value="/communities/{id}/accounts", method= RequestMethod.GET)
 	public List<BankAccount> getAllAccounts(@PathVariable Long id) throws ResourceNotFoundException {
 		return service.getAllAccounts(id);
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
-	@RequestMapping(value="communities/{id}/accounts", method= RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/communities/{id}/accounts", method= RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void createAccount(@PathVariable Long id, @Valid @RequestBody BankAccount account) throws ResourceNotFoundException {
 		service.createAccount(id, account);
 	}
 	
-	@RequestMapping(value="communities/{id}/accounts/{accountId}", method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/communities/{id}/accounts/{accountId}", method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void updateAccount(@PathVariable Long id, @PathVariable Long accountId, @Valid @RequestBody BankAccount account) throws ResourceNotFoundException, EntityValidationException {
 		service.updateAccount(id, accountId, account);
 	}
 	
-	@RequestMapping(value="communities/{id}/accounts/{accountId}", method= RequestMethod.DELETE, consumes=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/communities/{id}/accounts/{accountId}", method= RequestMethod.DELETE, consumes=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteAccount(@PathVariable Long id, @PathVariable Long accountId) throws ResourceNotFoundException {
 		service.deleteAccount(id, accountId);
