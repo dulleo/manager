@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.dl.manager.entity.Doorway;
+import com.dl.manager.exception.ResourceNotFoundException;
 
 /**
  * 
@@ -13,7 +14,7 @@ import com.dl.manager.entity.Doorway;
  */
 public interface DoorwayServiceInterface {
 
-	List<Doorway> getAllDoorways(Long id);
+	List<Doorway> getAllDoorways(Long id) throws ResourceNotFoundException;
 
 	void createDoorway(Long id, @Valid Doorway doorway);
 
