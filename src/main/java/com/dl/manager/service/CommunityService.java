@@ -2,10 +2,13 @@ package com.dl.manager.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dl.manager.entity.Community;
+import com.dl.manager.entity.provider.EntityProviderInterface;
 import com.dl.manager.exception.ResourceNotFoundException;
 import com.dl.manager.repository.RepositoryContainer;
 
@@ -15,9 +18,11 @@ import com.dl.manager.repository.RepositoryContainer;
  *
  */
 @Service
+@Transactional
 public class CommunityService implements CommunityServiceInterface {
 	
-	private final static String NOT_FOUND_MESSAGE = "Stambena zajednica sa id=%s nije pronadjena!";
+	@Autowired
+	private EntityProviderInterface entityProvider;
 	
 	@Autowired
 	private RepositoryContainer repoContainer;
@@ -39,7 +44,7 @@ public class CommunityService implements CommunityServiceInterface {
 	@Override
 	public void updateCommunity(Long id, Community community) throws ResourceNotFoundException {
 		
-		Community communityFromDb = getCommunityFromDb(id);
+		Community communityFromDb = entityProvider.getCommunityFromDb(id);
 		
 		communityFromDb.setName(community.getName());
 		communityFromDb.setIdentificationNumber(community.getIdentificationNumber());
@@ -52,22 +57,8 @@ public class CommunityService implements CommunityServiceInterface {
 	@Override
 	public void deleteCommunity(Long id) throws ResourceNotFoundException {
 		
-		Community communityFromDb = getCommunityFromDb(id);
-		
+		Community communityFromDb = entityProvider.getCommunityFromDb(id);
 		repoContainer.getCommunityRepo().delete(communityFromDb);
 		
 	}
-	
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 * @throws ResourceNotFoundException
-	 */
-	private Community getCommunityFromDb(Long id) throws ResourceNotFoundException {
-		Community communityFromDb = repoContainer.getCommunityRepo().findById(id)
-				.orElseThrow(()-> new ResourceNotFoundException(String.format(NOT_FOUND_MESSAGE, id)));
-		return communityFromDb;
-	}
-
 }
