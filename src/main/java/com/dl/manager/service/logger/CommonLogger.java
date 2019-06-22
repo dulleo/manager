@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * 
@@ -25,13 +26,15 @@ public class CommonLogger {
 	
 	private static final String EMPTY_STRING = "";
 	
-	@Before("@annotation(org.springframework.web.bind.annotation.RequestMapping)") 
-    public void logBeforeAllContrllers(JoinPoint jp) { 
+	@Before("@annotation(org.springframework.web.bind.annotation.RequestMapping) && @annotation(mapping)") 
+    public void logBeforeAllContrllers(JoinPoint jp, RequestMapping mapping) { 
         //LOGGER.info("[CLIENT USERNAME]: " + headerResolver.getUsername());
         //LOGGER.info("[CLIENT IP]: " + headerResolver.getClientIp()); 
         //LOGGER.info("[URL]: " + headerResolver.getRequestURI());
         LOGGER.info("[CONTROLLER]: " + getName(jp)); 
-        LOGGER.info("[METHOD]: " + jp.getSignature().getName());
+        LOGGER.info("[METHOD]: " + mapping.method()[0]);
+        LOGGER.info("[METHOD NAME]: " + jp.getSignature().getName());
+        LOGGER.info("[URL]: {}", mapping.value()[0]);
         String args = getArgs(jp);
         if(EMPTY_STRING != args) {
         	LOGGER.info("[ARGS]: " + args);
