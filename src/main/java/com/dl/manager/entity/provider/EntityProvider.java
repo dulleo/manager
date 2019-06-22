@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.dl.manager.entity.BankAccount;
 import com.dl.manager.entity.Community;
+import com.dl.manager.entity.Doorway;
 import com.dl.manager.exception.EntityValidationException;
 import com.dl.manager.exception.ResourceNotFoundException;
 import com.dl.manager.repository.RepositoryContainer;
@@ -19,9 +20,10 @@ import com.dl.manager.repository.RepositoryContainer;
 @Component
 public class EntityProvider implements EntityProviderInterface {
 	
-	private static String COMMUNITY_NOT_FOUND_MESSAGE = "Stambena zajednica id=%s nije pronadjena!";
-	private static String ACCOUNT_NOT_FOUND_MESSAGE = "Za stambenu zajednicu id=%s nije pronadjen račun id=%s";
+	private static String COMMUNITY_NOT_FOUND_MESSAGE = "Stambena zajednica id=%s nije pronađena!";
+	private static String ACCOUNT_NOT_FOUND_MESSAGE = "Za stambenu zajednicu id=%s nije pronađen račun id=%s";
 	private static String ID_INVALID_MESSAGE = "URL id=%s nije jednak sa id=%s";
+	private static String DOORWAY_NOT_FOUND_MESSAGE = "Za stambenu zajednicu id=%s nije pronađen ulaz id=%s";
 	
 	@Autowired
 	private RepositoryContainer repoContainer;
@@ -59,5 +61,29 @@ public class EntityProvider implements EntityProviderInterface {
 		
 		return this.getAccountFromDb(communityId, accountId);
 	}
+	
+	@Override
+	public Doorway getDoorwayFromDb(Long communityId, Long doorwayId) throws ResourceNotFoundException {
+		
+		Doorway doorwayFromDb = repoContainer.getDoorwayRepo().findByIdAndCommunityId(doorwayId,communityId);
+		
+		if(doorwayFromDb == null) {
+			throw new ResourceNotFoundException(String.format(DOORWAY_NOT_FOUND_MESSAGE, communityId, doorwayId));
+		}
+		
+		return doorwayFromDb;
+	}
+
+	@Override
+	public Doorway getDoorwayFromDb(Long communityId, Long doorwayId, Doorway doorway) throws EntityValidationException, ResourceNotFoundException {
+		
+		if(doorwayId.longValue() != doorway.getId().longValue()) {
+			throw new EntityValidationException(String.format(ID_INVALID_MESSAGE, doorwayId, doorway.getId()));
+		}
+		
+		return this.getDoorwayFromDb(communityId, doorwayId);
+	}
+
+	
 
 }
