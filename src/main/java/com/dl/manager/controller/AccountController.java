@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dl.manager.entity.BankAccount;
+import com.dl.manager.exception.EntityValidationException;
 import com.dl.manager.exception.ResourceNotFoundException;
 import com.dl.manager.service.AccountServiceInterface;
 
@@ -46,8 +47,14 @@ public class AccountController {
 	
 	@RequestMapping(value="communities/{id}/accounts/{accountId}", method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void updateAccount(@PathVariable Long id, @PathVariable Long accountId, @Valid @RequestBody BankAccount account) throws ResourceNotFoundException {
+	public void updateAccount(@PathVariable Long id, @PathVariable Long accountId, @Valid @RequestBody BankAccount account) throws ResourceNotFoundException, EntityValidationException {
 		service.updateAccount(id, accountId, account);
+	}
+	
+	@RequestMapping(value="communities/{id}/accounts/{accountId}", method= RequestMethod.DELETE, consumes=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void deleteAccount(@PathVariable Long id, @PathVariable Long accountId) throws ResourceNotFoundException {
+		service.deleteAccount(id, accountId);
 	}
 
 }
