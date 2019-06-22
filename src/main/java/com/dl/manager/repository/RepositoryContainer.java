@@ -20,6 +20,9 @@ public class RepositoryContainer {
 	
 	@Autowired
 	private DoorwayRepository doorwayRepo;
+	
+	@Autowired
+	private OwnerRepository ownerRepo;
 
 	public DoorwayRepository getDoorwayRepo() {
 		return doorwayRepo;
@@ -31,6 +34,10 @@ public class RepositoryContainer {
 
 	public AccountRepository getAccountRepo() {
 		return accountRepo;
+	}
+
+	public OwnerRepository getOwnerRepo() {
+		return ownerRepo;
 	}
 
 }
