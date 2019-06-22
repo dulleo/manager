@@ -3,13 +3,14 @@ package com.dl.manager.service;
 import java.util.List;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dl.manager.entity.BankAccount;
 import com.dl.manager.entity.Community;
+import com.dl.manager.entity.provider.EntityProviderInterface;
+import com.dl.manager.exception.EntityValidationException;
 import com.dl.manager.exception.ResourceNotFoundException;
 import com.dl.manager.repository.RepositoryContainer;
 
@@ -21,59 +22,43 @@ import com.dl.manager.repository.RepositoryContainer;
 @Service
 @Transactional
 public class AccountService implements AccountServiceInterface {
-	
-	private final static String NOT_FOUND_MESSAGE = "Stambena zajednica sa id=%s nije pronadjena!";
-	
+
+	@Autowired
+	private EntityProviderInterface entityProvider;
+
 	@Autowired
 	private RepositoryContainer repoContainer;
 
 	@Override
 	public List<BankAccount> getAllAccounts(Long id) throws ResourceNotFoundException {
-		
-		Community communityFromDb = getCommunityFromDb(id);
-		
+
+		Community communityFromDb = entityProvider.getCommunityFromDb(id);
 		return repoContainer.getAccountRepo().findByCommunityId(communityFromDb.getId());
 	}
-	
+
 	@Override
-	public void createAccount(Long id, @Valid BankAccount account) throws ResourceNotFoundException {
-		
-		Community communityFromDb = getCommunityFromDb(id);
-		
+	public void createAccount(Long id, BankAccount account) throws ResourceNotFoundException {
+
+		Community communityFromDb = entityProvider.getCommunityFromDb(id);
 		account.setCommunity(communityFromDb);
-		
 		repoContainer.getAccountRepo().save(account);
 	}
-	
+
 	@Override
-	public void updateAccount(Long id, Long accountId, BankAccount account) {
+	public void updateAccount(Long communityId, Long accountId, BankAccount account) throws ResourceNotFoundException, EntityValidationException {
 		
-		getAccountFromDb(id, accountId);
+		BankAccount accountFromDb = entityProvider.getAccountFromDb(communityId, accountId, account);
+		accountFromDb.setAccountNumber(account.getAccountNumber());
+		accountFromDb.setBankName(account.getBankName());
+		repoContainer.getAccountRepo().save(accountFromDb);
 		
 	}
 
-	/**
-	 * 
-	 * @param id
-	 * @param accountId
-	 */
-	private BankAccount getAccountFromDb(Long id, Long accountId) {
+	@Override
+	public void deleteAccount(Long communityId, Long accountId) throws ResourceNotFoundException {
 		
-		//return repoContainer.getAccountRepo().findById(accountId)
-			//.orElseThrow(()-> new ResourceNotFoundException(String.format("Ne postoji račun id: %s za stambenu zajednicu id: %s", accountId, id)));
-		return null;
-	}
-	
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 * @throws ResourceNotFoundException
-	 */
-	private Community getCommunityFromDb(Long id) throws ResourceNotFoundException {
-		Community communityFromDb = repoContainer.getCommunityRepo().findById(id)
-				.orElseThrow(()-> new ResourceNotFoundException(String.format(NOT_FOUND_MESSAGE, id)));
-		return communityFromDb;
+		BankAccount accountFromDb = entityProvider.getAccountFromDb(communityId, accountId);
+		repoContainer.getAccountRepo().delete(accountFromDb);
 	}
 
 }
