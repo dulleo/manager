@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -34,8 +37,9 @@ public class BankAccount {
 	@Column(name="bank")
 	private String bankName;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, optional = false)
 	@JoinColumn(name = "community_id", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	private Community community;
 
