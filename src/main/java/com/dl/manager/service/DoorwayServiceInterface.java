@@ -17,4 +17,6 @@ public interface DoorwayServiceInterface {
 
 	void createDoorway(Long id, @Valid Doorway doorway);
 
+	void updateDoorway(Long id, Long accountId, @Valid Doorway doorway);
+
 }
