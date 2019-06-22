@@ -2,6 +2,7 @@ package com.dl.manager.entity.provider;
 
 import com.dl.manager.entity.BankAccount;
 import com.dl.manager.entity.Community;
+import com.dl.manager.entity.Doorway;
 import com.dl.manager.exception.EntityValidationException;
 import com.dl.manager.exception.ResourceNotFoundException;
 
@@ -17,5 +18,9 @@ public interface EntityProviderInterface {
 	BankAccount getAccountFromDb(Long communityId, Long accountId, BankAccount account) throws ResourceNotFoundException, EntityValidationException;
 
 	BankAccount getAccountFromDb(Long communityId, Long accountId) throws ResourceNotFoundException;
+
+	Doorway getDoorwayFromDb(Long communityId, Long doorwayId, Doorway doorway) throws EntityValidationException, ResourceNotFoundException;
+	
+	Doorway getDoorwayFromDb(Long communityId, Long doorwayId) throws ResourceNotFoundException;
 
 }
