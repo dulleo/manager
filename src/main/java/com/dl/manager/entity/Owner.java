@@ -1,15 +1,18 @@
 package com.dl.manager.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -17,8 +20,8 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.dl.manager.common.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * 
@@ -27,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name="owners")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Owner {
 	
 	@Id
@@ -63,9 +67,11 @@ public class Owner {
 	@Column(name="city")
 	private String city;
 	
-	@Enumerated(EnumType.STRING)
-	@Column(name="status")
-	private Status status;
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)//, fetch = FetchType.LAZY)
+	//@JsonManagedReference
+	@JsonIgnore
+	private List<ApartmentOwner> apartmentOwners;// = new ArrayList<>();
+	
 	
 	@ManyToOne(fetch=FetchType.LAZY, optional = false)
 	@JoinColumn(name = "community_id", nullable = false)
@@ -153,14 +159,7 @@ public class Owner {
 		this.city = city;
 	}
 
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-
+	
 	public Community getCommunity() {
 		return community;
 	}
@@ -169,12 +168,20 @@ public class Owner {
 		this.community = community;
 	}
 
+	public List<ApartmentOwner> getApartments() {
+		return apartmentOwners;
+	}
+
+	public void setApartments(List<ApartmentOwner> apartments) {
+		this.apartmentOwners = apartments;
+	}
+
 	@Override
 	public String toString() {
-		return "Owner [id=" + id + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName="
-				+ lastName + ", identificationNumber=" + identificationNumber + ", phone=" + phone + ", email=" + email
-				+ ", street=" + street + ", streetNumber=" + streetNumber + ", city=" + city + ", status=" + status
-				+ ", community=" + community + "]";
+		return "Owner [id=" + id + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName=" + lastName
+				+ ", identificationNumber=" + identificationNumber + ", phone=" + phone + ", email=" + email
+				+ ", street=" + street + ", streetNumber=" + streetNumber + ", city=" + city + ", apartments="
+				+ apartmentOwners + ", community=" + community + "]";
 	}
 
 }
