@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.dl.manager.entity.Owner;
+import com.dl.manager.exception.EntityValidationException;
+import com.dl.manager.exception.ResourceNotFoundException;
 
 /**
  * 
@@ -14,12 +16,12 @@ import com.dl.manager.entity.Owner;
 @Service
 public interface OwnerServiceInterface {
 
-	List<Owner> getAllOwners(Long id);
+	List<Owner> getAllOwners(Long communityId) throws ResourceNotFoundException;
 
-	void createOwner(Long id, Owner owner);
+	void createOwner(Long communityId, Owner owner) throws ResourceNotFoundException;
 
-	void updateOwner(Long id, Long ownerId, Owner owner);
+	void updateOwner(Long communityId, Long ownerId, Owner owner) throws EntityValidationException, ResourceNotFoundException;
 
-	void deleteOwner(Long id, Long ownerId);
+	void deleteOwner(Long communityId, Long ownerId) throws ResourceNotFoundException;
 
 }
