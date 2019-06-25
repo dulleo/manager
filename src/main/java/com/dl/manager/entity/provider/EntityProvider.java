@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.dl.manager.entity.BankAccount;
 import com.dl.manager.entity.Community;
 import com.dl.manager.entity.Doorway;
+import com.dl.manager.entity.Owner;
 import com.dl.manager.exception.EntityValidationException;
 import com.dl.manager.exception.ResourceNotFoundException;
 import com.dl.manager.repository.RepositoryContainer;
@@ -24,6 +25,7 @@ public class EntityProvider implements EntityProviderInterface {
 	private static String ACCOUNT_NOT_FOUND_MESSAGE = "Za stambenu zajednicu id=%s nije pronađen račun id=%s";
 	private static String ID_INVALID_MESSAGE = "URL id=%s nije jednak sa id=%s";
 	private static String DOORWAY_NOT_FOUND_MESSAGE = "Za stambenu zajednicu id=%s nije pronađen ulaz id=%s";
+	private static String OWNER_NOT_FOUND_MESSAGE = "";
 	
 	@Autowired
 	private RepositoryContainer repoContainer;
@@ -84,6 +86,26 @@ public class EntityProvider implements EntityProviderInterface {
 		return this.getDoorwayFromDb(communityId, doorwayId);
 	}
 
-	
+	@Override
+	public Owner getOwnerFromDb(Long communityId, Long ownerId) throws ResourceNotFoundException {
+		
+		Owner ownerFromDb = repoContainer.getOwnerRepo().findByIdAndCommunityId(ownerId,communityId);
+		
+		if(ownerFromDb == null) {
+			throw new ResourceNotFoundException(String.format(OWNER_NOT_FOUND_MESSAGE, communityId, ownerId));
+		}
+		
+		return ownerFromDb;
+	}
+
+	@Override
+	public Owner getOwnerFromDb(Long communityId, Long ownerId, Owner owner) throws EntityValidationException, ResourceNotFoundException {
+		
+		if(ownerId.longValue() != owner.getId().longValue()) {
+			throw new EntityValidationException(String.format(ID_INVALID_MESSAGE, ownerId, owner.getId()));
+		}
+		
+		return this.getOwnerFromDb(communityId, ownerId);
+	}
 
 }
