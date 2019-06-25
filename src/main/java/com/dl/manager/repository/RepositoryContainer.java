@@ -3,7 +3,6 @@ package com.dl.manager.repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
 /**
  * 
  * @author duskol May 12, 2019
@@ -23,6 +22,13 @@ public class RepositoryContainer {
 	
 	@Autowired
 	private OwnerRepository ownerRepo;
+	
+	@Autowired
+	private ApartmentRepository apartmentRepo;
+
+	public ApartmentRepository getApartmentRepo() {
+		return apartmentRepo;
+	}
 
 	public DoorwayRepository getDoorwayRepo() {
 		return doorwayRepo;
@@ -39,5 +45,4 @@ public class RepositoryContainer {
 	public OwnerRepository getOwnerRepo() {
 		return ownerRepo;
 	}
-
 }
