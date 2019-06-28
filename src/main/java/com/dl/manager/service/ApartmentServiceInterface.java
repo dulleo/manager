@@ -14,6 +14,6 @@ public interface ApartmentServiceInterface {
 
 	List<Apartment> getAllApartments(Long communityId, Long doorwayId) throws ResourceNotFoundException;
 
-	void createApartment(Long communityId, Long doorwayId, Apartment apartment);
+	void createApartment(Long communityId, Long doorwayId, Apartment apartment) throws ResourceNotFoundException;
 
 }
