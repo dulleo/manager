@@ -89,13 +89,15 @@ public class EntityProvider implements EntityProviderInterface {
 	@Override
 	public Owner getOwnerFromDb(Long communityId, Long ownerId) throws ResourceNotFoundException {
 		
-		Owner ownerFromDb = repoContainer.getOwnerRepo().findByIdAndCommunityId(ownerId,communityId);
-		
-		if(ownerFromDb == null) {
-			throw new ResourceNotFoundException(String.format(OWNER_NOT_FOUND_MESSAGE, communityId, ownerId));
+		Owner ownerFromDb =
+		 repoContainer.getOwnerRepo().findByIdAndCommunityId(ownerId,communityId);
+		  
+		if(ownerFromDb == null) { 
+			throw new ResourceNotFoundException(String.format(OWNER_NOT_FOUND_MESSAGE, communityId, ownerId)); 
 		}
-		
+		  
 		return ownerFromDb;
+
 	}
 
 	@Override
