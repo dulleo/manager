@@ -28,11 +28,11 @@ public class Community {
 	
 	@Column(name="identification_number", unique=true)
 	@NotNull(message= "Identification number may not be empty")
-	private Integer identificationNumber;
+	private Long identificationNumber;
 
 	@Column(name="pib", unique=true)
 	@NotNull(message= "Pib may not be empty")
-	private Integer pib;
+	private Long pib;
 
 	public Long getId() {
 		return id;
@@ -50,19 +50,19 @@ public class Community {
 		this.name = name;
 	}
 	
-	public Integer getIdentificationNumber() {
+	public Long getIdentificationNumber() {
 		return identificationNumber;
 	}
 
-	public void setIdentificationNumber(Integer identificationNumber) {
+	public void setIdentificationNumber(Long identificationNumber) {
 		this.identificationNumber = identificationNumber;
 	}
 
-	public Integer getPib() {
+	public Long getPib() {
 		return pib;
 	}
 
-	public void setPib(Integer pib) {
+	public void setPib(Long pib) {
 		this.pib = pib;
 	}
 
