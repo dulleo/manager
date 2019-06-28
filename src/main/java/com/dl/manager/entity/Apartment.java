@@ -71,6 +71,14 @@ public class Apartment {
 	public void setApartmentOwners(List<ApartmentOwner> apartmentOwners) {
 		this.apartmentOwners = apartmentOwners;
 	}
+	
+	public Doorway getDoorway() {
+		return doorway;
+	}
+
+	public void setDoorway(Doorway doorway) {
+		this.doorway = doorway;
+	}
 
 	@Override
 	public String toString() {
