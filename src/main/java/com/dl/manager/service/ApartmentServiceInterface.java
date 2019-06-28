@@ -3,6 +3,7 @@ package com.dl.manager.service;
 import java.util.List;
 
 import com.dl.manager.entity.Apartment;
+import com.dl.manager.exception.ResourceNotFoundException;
 
 /**
  * 
@@ -11,6 +12,8 @@ import com.dl.manager.entity.Apartment;
  */
 public interface ApartmentServiceInterface {
 
-	List<Apartment> getAllApartments();
+	List<Apartment> getAllApartments(Long communityId, Long doorwayId) throws ResourceNotFoundException;
+
+	void createApartment(Long communityId, Long doorwayId, Apartment apartment);
 
 }
