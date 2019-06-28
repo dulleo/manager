@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dl.manager.entity.Apartment;
+import com.dl.manager.entity.Doorway;
+import com.dl.manager.entity.provider.EntityProviderInterface;
+import com.dl.manager.exception.ResourceNotFoundException;
 import com.dl.manager.repository.RepositoryContainer;
 
 /**
@@ -17,14 +20,25 @@ import com.dl.manager.repository.RepositoryContainer;
 public class ApartmentService implements ApartmentServiceInterface {
 	
 	@Autowired
+	private EntityProviderInterface entityProvider;
+	
+	@Autowired
 	private RepositoryContainer repoContainer;
 
 	@Override
-	public List<Apartment> getAllApartments() {
+	public List<Apartment> getAllApartments(Long communityId, Long doorwayId) throws ResourceNotFoundException {
 		
-		List<Apartment> findAll = repoContainer.getApartmentRepo().findAll();
+		Doorway doorwayFromDb = entityProvider.getDoorwayFromDb(communityId, doorwayId);
+		return repoContainer.getApartmentRepo().findByDoorwayId(doorwayFromDb.getId());
 		
-		return findAll;
+	}
+
+	@Override
+	public void createApartment(Long communityId, Long doorwayId, Apartment apartment) throws ResourceNotFoundException {
+		
+		Doorway doorwayFromDb = entityProvider.getDoorwayFromDb(communityId, doorwayId);
+		apartment.setDoorway(doorwayFromDb);
+		repoContainer.getApartmentRepo().save(apartment);
 		
 	}
 
