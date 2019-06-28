@@ -1,11 +1,9 @@
 package com.dl.manager.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,8 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.dl.manager.common.Status;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 
@@ -25,22 +21,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name="apartment_owner")
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ApartmentOwner {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	//@JsonBackReference
-	//@JsonIgnore
-	@ManyToOne//(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "owner_id")
     private Owner owner;
 	
-	//@JsonBackReference
-	//@JsonIgnore
-	@ManyToOne//(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "apartment_id")
     private Apartment apartment;
 	
