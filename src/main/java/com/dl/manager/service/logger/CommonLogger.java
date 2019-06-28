@@ -31,10 +31,14 @@ public class CommonLogger {
         //LOGGER.info("[CLIENT USERNAME]: " + headerResolver.getUsername());
         //LOGGER.info("[CLIENT IP]: " + headerResolver.getClientIp()); 
         //LOGGER.info("[URL]: " + headerResolver.getRequestURI());
-        LOGGER.info("[CONTROLLER]: " + getName(jp)); 
-        LOGGER.info("[METHOD]: " + mapping.method()[0]);
+        LOGGER.info("[CONTROLLER]: " + getName(jp));
+        if(mapping.method().length > 0) {
+        	LOGGER.info("[METHOD]: " + mapping.method()[0]);
+        }
         LOGGER.info("[METHOD NAME]: " + jp.getSignature().getName());
-        LOGGER.info("[URL]: {}", mapping.value()[0]);
+        if(mapping.value().length > 0) {
+        	 LOGGER.info("[URL]: {}", mapping.value()[0]);
+        }
         String args = getArgs(jp);
         if(EMPTY_STRING != args) {
         	LOGGER.info("[ARGS]: " + args);
@@ -42,11 +46,12 @@ public class CommonLogger {
     }
 	
 	@AfterThrowing(pointcut = "execution(* com.dl.manager.controller.*.*(..))", throwing = "ex")
-    public void logAfterThrowingAllMethods(JoinPoint jp, Exception ex) throws Throwable {
+    public void logAfterThrowingAllMethods(JoinPoint jp, Throwable ex) throws Throwable {
+		LOGGER.error("[EXCEPTION METHOD SIGNATURE]: " + jp.getSignature());
         LOGGER.error("[EXCEPTION MESSAGE]: " + ex.getMessage());
         LOGGER.error("[STACK TRACE]: ",ex);
     }
-
+	
 	/**
 	 * 
 	 * @param jp
