@@ -1,6 +1,5 @@
 package com.dl.manager.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,12 +9,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 /**
@@ -25,7 +28,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
  */
 @Entity
 @Table(name="apartments")
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Apartment {
 	
 	@Id
@@ -34,12 +36,17 @@ public class Apartment {
 	
 	@Column(name="number", unique=true)
 	@NotNull(message= "Appartment number may not be empty")
-	private Integer number;
+	private Integer apartmentNumber;
 	
-	//@JsonManagedReference
-	@OneToMany(mappedBy = "apartment", cascade = CascadeType.ALL, orphanRemoval = true) //, fetch = FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, optional = false)
+	@JoinColumn(name = "doorway_id", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
-	private List<ApartmentOwner> apartmentOwners;// = new ArrayList<>();
+	private Doorway doorway;
+	
+	@OneToMany(mappedBy = "apartment", cascade = CascadeType.ALL, orphanRemoval = true) 
+	@JsonIgnore
+	private List<ApartmentOwner> apartmentOwners;
 
 	public Long getId() {
 		return id;
@@ -49,25 +56,25 @@ public class Apartment {
 		this.id = id;
 	}
 
-	public Integer getNumber() {
-		return number;
+	public Integer getApartmentNumber() {
+		return apartmentNumber;
 	}
 
-	public void setNumber(Integer number) {
-		this.number = number;
+	public void setApartmentNumber(Integer apartmentNumber) {
+		this.apartmentNumber = apartmentNumber;
 	}
 
-	public List<ApartmentOwner> getOwners() {
+	public List<ApartmentOwner> getApartmentOwners() {
 		return apartmentOwners;
 	}
 
-	public void setOwners(List<ApartmentOwner> owners) {
-		this.apartmentOwners = owners;
+	public void setApartmentOwners(List<ApartmentOwner> apartmentOwners) {
+		this.apartmentOwners = apartmentOwners;
 	}
 
 	@Override
 	public String toString() {
-		return "Apartment [id=" + id + ", number=" + number + ", owners=" + apartmentOwners + "]";
+		return "Apartment [id=" + id + ", apartmentNumber=" + apartmentNumber + ", doorway=" + doorway
+				+ ", apartmentOwners=" + apartmentOwners + "]";
 	}
-	
 }
