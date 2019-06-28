@@ -30,7 +30,7 @@ public class Doorway {
 	private Long id;
 	
 	@NotBlank
-	@Column(name="number")
+	@Column(name="number", unique=true)
 	private String number;
 	
 	@ManyToOne(fetch=FetchType.LAZY, optional = false)
