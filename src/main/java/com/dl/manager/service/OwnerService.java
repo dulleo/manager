@@ -31,6 +31,7 @@ public class OwnerService implements OwnerServiceInterface {
 		
 		Community communityFromDb = entityProvider.getCommunityFromDb(communityId);
 		return repoContainer.getOwnerRepo().findByCommunityId(communityFromDb.getId());
+		
 	}
 
 	@Override
@@ -48,14 +49,11 @@ public class OwnerService implements OwnerServiceInterface {
 		Owner ownerFromDb = entityProvider.getOwnerFromDb(communityId, ownerId, owner);
 		ownerFromDb.setFirstName(owner.getFirstName());
 		ownerFromDb.setLastName(owner.getLastName());
-		ownerFromDb.setMiddleName(owner.getMiddleName());
-		ownerFromDb.setIdentificationNumber(owner.getIdentificationNumber());
 		ownerFromDb.setPhone(owner.getPhone());
 		ownerFromDb.setEmail(owner.getEmail());
 		ownerFromDb.setStreet(owner.getStreet());
 		ownerFromDb.setStreetNumber(owner.getStreetNumber());
 		ownerFromDb.setCity(owner.getCity());
-		//ownerFromDb.setStatus(owner.getStatus());
 		repoContainer.getOwnerRepo().save(ownerFromDb);
 		
 	}
