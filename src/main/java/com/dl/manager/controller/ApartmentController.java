@@ -33,13 +33,13 @@ public class ApartmentController {
 	private ApartmentServiceInterface service;
 	
 	@ResponseStatus(value = HttpStatus.OK)
-	@RequestMapping(value="communities/{id}/doorways/{doorwayId}/apartments", method= RequestMethod.GET)
+	@RequestMapping(value="/communities/{id}/doorways/{doorwayId}/apartments", method= RequestMethod.GET)
 	public List<Apartment> getAllApartments(@PathVariable Long id, @PathVariable Long doorwayId) throws ResourceNotFoundException {
 		return service.getAllApartments(id, doorwayId);
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
-	@RequestMapping(value="communities/{id}/doorways/{doorwayId}/apartments", method= RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/communities/{id}/doorways/{doorwayId}/apartments", method= RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void createApartment(@PathVariable Long id, @PathVariable Long doorwayId, @Valid @RequestBody Apartment apartment) throws ResourceNotFoundException {
 		service.createApartment(id, doorwayId, apartment);
 	}
