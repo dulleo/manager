@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 //import javax.persistence.MapsId;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.dl.manager.common.Status;
 
@@ -27,12 +31,14 @@ public class ApartmentOwner {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToOne
-	@JoinColumn(name = "owner_id")
+	@ManyToOne(fetch=FetchType.LAZY, optional = false)
+	@JoinColumn(name = "owner_id", nullable=false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
     private Owner owner;
 	
-	@ManyToOne
-	@JoinColumn(name = "apartment_id")
+	@ManyToOne(fetch=FetchType.LAZY, optional = false)
+	@JoinColumn(name = "apartment_id", nullable=false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
     private Apartment apartment;
 	
 	@Enumerated(EnumType.STRING)
