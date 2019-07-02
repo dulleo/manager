@@ -25,6 +25,13 @@ public class RepositoryContainer {
 	
 	@Autowired
 	private ApartmentRepository apartmentRepo;
+	
+	@Autowired
+	private ApartmentOwnerRepository apartmentOwnerRepo;
+
+	public ApartmentOwnerRepository getApartmentOwnerRepo() {
+		return apartmentOwnerRepo;
+	}
 
 	public ApartmentRepository getApartmentRepo() {
 		return apartmentRepo;
